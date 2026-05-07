@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doremi Music School – Belajar Musik dengan Hati</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D898;
+    --dark: #0F0C0A;
+    --dark2: #1A1612;
+    --dark3: #252018;
+    --cream: #F5F0E8;
+    --cream2: #EDE6D5;
+    --text: #F5F0E8;
+    --muted: #9A8F7E;
+    --accent: #E8B86D;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(15,12,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-icon {
+    width: 44px; height: 44px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--dark);
+  }
+  .logo-text { line-height: 1.1; }
+  .logo-text strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; color: var(--gold);
+    letter-spacing: 0.04em;
+  }
+  .logo-text span { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; transition: color 0.2s; }
+  nav ul a:hover { color: var(--gold); }
+  .btn-nav {
+    padding: 0.55rem 1.4rem;
+    background: var(--gold);
+    color: var(--dark);
+    border: none; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.02em;
+    text-decoration: none; transition: background 0.2s, transform 0.1s;
+  }
+  .btn-nav:hover { background: var(--accent); transform: scale(1.02); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 20%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  }
+  .staff-lines {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.06;
+  }
+  .staff-lines svg { width: 100%; height: 100%; }
+  .hero-content { position: relative; z-index: 1; max-width: 760px; }
+  .hero-badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50px;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 1.08;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 520px; margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.9rem 2.2rem;
+    background: var(--gold);
+    color: var(--dark); border: none; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.02em; transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+  .btn-outline {
+    padding: 0.9rem 2.2rem;
+    background: transparent;
+    color: var(--cream); border: 1px solid rgba(245,240,232,0.3); border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats {
+    margin-top: 5rem;
+    display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
+  }
+  .hero-stat strong {
+    display: block; font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; color: var(--gold);
+  }
+  .hero-stat span { font-size: 13px; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* SECTION BASE */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.8rem; font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15; margin-bottom: 1rem;
+  }
+  .section-sub { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 560px; }
+
+  /* FEATURES */
+  #fitur { background: var(--dark2); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    margin-top: 4rem;
+    border: 1.5px solid rgba(201,168,76,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .feat-card {
+    background: var(--dark2);
+    padding: 2rem 1.8rem;
+    border: 1px solid rgba(201,168,76,0.08);
+    transition: background 0.3s;
+  }
+  .feat-card:hover { background: var(--dark3); }
+  .feat-icon {
+    width: 48px; height: 48px;
+    background: rgba(201,168,76,0.1);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 1.2rem;
+  }
+  .feat-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; margin-bottom: 0.6rem;
+  }
+  .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .feat-tag {
+    display: inline-block; margin-top: 1rem;
+    padding: 0.2rem 0.8rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50px; font-size: 11px; color: var(--gold); letter-spacing: 0.06em;
+  }
+
+  /* HOW WORKS */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 4rem; }
+  .step {
+    text-align: center; padding: 2rem 1rem;
+  }
+  .step-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold);
+    margin: 0 auto 1.2rem;
+  }
+  .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 0.5rem; }
+  .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* SHEETS INTEGRATION */
+  .sheets-box {
+    margin-top: 4rem;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: center;
+  }
+  @media(max-width:680px){ .sheets-box { grid-template-columns: 1fr; } }
+  .sheets-visual {
+    background: var(--dark2);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .sheets-header {
+    background: #0F9D58;
+    padding: 0.7rem 1rem;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; color: #fff;
+  }
+  .sheets-header span { font-size: 18px; }
+  .sheets-row {
+    display: flex; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 12px;
+  }
+  .sheets-row.head { background: rgba(15,157,88,0.1); font-weight: 600; color: var(--gold); }
+  .sheets-cell { padding: 0.5rem 0.7rem; flex: 1; border-right: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
+  .sheets-cell:first-child { flex: 0 0 30px; }
+  .badge-lunas { color: #4CAF50; font-size: 11px; }
+  .badge-pending { color: #FF9800; font-size: 11px; }
+  .sheets-text h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 1rem; }
+  .sheets-text p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+  .sheets-text ul { list-style: none; }
+  .sheets-text ul li {
+    font-size: 14px; color: var(--muted); padding: 0.4rem 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sheets-text ul li::before { content: '✓'; color: #0F9D58; font-weight: 700; }
+
+  /* PRICING */
+  #harga { background: var(--dark2); }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
+  .price-card {
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 20px; padding: 2.2rem;
+    position: relative; transition: border-color 0.3s;
+  }
+  .price-card:hover { border-color: rgba(201,168,76,0.4); }
+  .price-card.featured {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, rgba(201,168,76,0.07), var(--dark3));
+  }
+  .price-badge {
+    position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--dark);
+    padding: 0.25rem 1rem; border-radius: 0 0 10px 10px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+  }
+  .price-type { font-size: 13px; color: var(--muted); margin-bottom: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .price-amt {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem; color: var(--gold); margin-bottom: 0.3rem;
+  }
+  .price-amt small { font-size: 14px; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+  .price-period { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; }
+  .price-features { list-style: none; margin-bottom: 1.8rem; }
+  .price-features li { padding: 0.5rem 0; font-size: 14px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .price-features li::before { content: '♩'; color: var(--gold); }
+  .btn-price {
+    width: 100%; padding: 0.85rem;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold); border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-price:hover, .price-card.featured .btn-price {
+    background: var(--gold); color: var(--dark);
+  }
+
+  /* TESTIMONIALS */
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
+  .testi-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 16px; padding: 1.8rem;
+  }
+  .stars { color: var(--gold); font-size: 14px; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testi-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 10px; }
+  .testi-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: var(--gold);
+  }
+  .testi-author strong { display: block; font-size: 14px; }
+  .testi-author span { font-size: 12px; color: var(--muted); }
+
+  /* CTA BOTTOM */
+  .cta-section {
+    text-align: center; padding: 8rem 2rem;
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '♪';
+    position: absolute; font-size: 40vw; color: rgba(201,168,76,0.02);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    font-family: serif; pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 1.2rem; position: relative;
+  }
+  .cta-section p { color: var(--muted); margin-bottom: 2.5rem; font-size: 16px; position: relative; }
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 1rem 2.5rem;
+    background: #25D366; color: #fff;
+    border: none; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    position: relative;
+  }
+  .wa-btn:hover { background: #1ebe5a; transform: translateY(-2px); }
+  .wa-icon { font-size: 20px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+  }
+  footer .logo { justify-content: center; margin-bottom: 1rem; }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content { animation: fadeUp 0.8s ease both; }
+  .hero-stats { animation: fadeUp 0.8s 0.3s ease both; }
+
+  /* MOBILE */
+  @media(max-width: 640px) {
+    nav ul { display: none; }
+    .hero-ctas { flex-direction: column; align-items: center; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">♪</div>
+    <div class="logo-text">
+      <strong>Doremi</strong>
+      <span>Music School</span>
+    </div>
+  </div>
+  <ul>
+    <li><a href="#fitur">Fitur</a></li>
+    <li><a href="#cara-kerja">Cara Kerja</a></li>
+    <li><a href="#harga">Harga SPP</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <a href="doremi-dashboard.html" class="btn-nav">Login Admin ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="staff-lines">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="200" x2="1200" y2="200" stroke="white" stroke-width="1"/>
+      <line x1="0" y1="220" x2="1200" y2="220" stroke="white" stroke-width="1"/>
+      <line x1="0" y1="240" x2="1200" y2="240" stroke="white" stroke-width="1"/>
+      <line x1="0" y1="260" x2="1200" y2="260" stroke="white" stroke-width="1"/>
+      <line x1="0" y1="280" x2="1200" y2="280" stroke="white" stroke-width="1"/>
+      <text x="80" y="195" font-size="48" fill="white">𝄞</text>
+      <circle cx="130" cy="260" r="7" fill="white"/>
+      <circle cx="190" cy="240" r="7" fill="white"/>
+      <circle cx="250" cy="220" r="7" fill="white"/>
+      <circle cx="310" cy="245" r="7" fill="white"/>
+      <circle cx="370" cy="260" r="7" fill="white"/>
+      <circle cx="430" cy="230" r="7" fill="white"/>
+      <text x="500" y="195" font-size="32" fill="white">𝄽</text>
+      <circle cx="560" cy="250" r="7" fill="white"/>
+      <circle cx="620" cy="235" r="7" fill="white"/>
+      <circle cx="680" cy="255" r="7" fill="white"/>
+      <circle cx="740" cy="220" r="7" fill="white"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">♩ Sistem Manajemen Sekolah Musik Modern</div>
+    <h1>Kelola Sekolah Musik<br>Dengan <em>Harmoni</em> &<br>Kemudahan</h1>
+    <p>Platform lengkap untuk manajemen siswa, tracking pembayaran SPP, progress latihan, dan reminder otomatis via WhatsApp — semua tersimpan di Google Sheets milikmu.</p>
+    <div class="hero-ctas">
+      <a href="doremi-dashboard.html" class="btn-primary">Masuk Dashboard Admin</a>
+      <a href="#fitur" class="btn-outline">Lihat Semua Fitur</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>CRUD</strong><span>Manajemen Siswa</span></div>
+      <div class="hero-stat"><strong>Auto</strong><span>WhatsApp Reminder</span></div>
+      <div class="hero-stat"><strong>PDF</strong><span>Export Laporan</span></div>
+      <div class="hero-stat"><strong>Real-time</strong><span>Google Sheets</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section id="fitur">
+  <div class="container">
+    <div class="section-label">Fitur Unggulan</div>
+    <h2 class="section-title">Semua Yang Kamu Butuhkan<br>Dalam Satu Platform</h2>
+    <p class="section-sub">Didesain khusus untuk kebutuhan sekolah musik, dari manajemen siswa hingga laporan keuangan otomatis.</p>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🔐</div>
+        <h3>Login Admin Aman</h3>
+        <p>Sistem autentikasi dengan password terenkripsi. Hanya admin yang berwenang bisa mengakses dashboard.</p>
+        <span class="feat-tag">Keamanan</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📊</div>
+        <h3>Dashboard Modern</h3>
+        <p>Ringkasan lengkap: total siswa aktif, pendapatan bulan ini, tunggakan, dan progress latihan dalam satu tampilan.</p>
+        <span class="feat-tag">Overview</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">👥</div>
+        <h3>CRUD Siswa Lengkap</h3>
+        <p>Tambah, edit, hapus, dan cari data siswa. Menyimpan nama, instrumen, jadwal, wali, dan nomor WhatsApp.</p>
+        <span class="feat-tag">Data Siswa</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">💳</div>
+        <h3>Tracking Pembayaran SPP</h3>
+        <p>Catat SPP bulanan atau triwulan. Status lunas/belum lunas otomatis terupdate di Google Sheets.</p>
+        <span class="feat-tag">Keuangan</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📜</div>
+        <h3>Histori Pembayaran</h3>
+        <p>Rekap pembayaran lengkap per siswa. Filter berdasarkan bulan, status, atau instrumen.</p>
+        <span class="feat-tag">Rekap</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎸</div>
+        <h3>Progress Latihan Mingguan</h3>
+        <p>Catat perkembangan siswa tiap minggu: materi yang dipelajari, catatan guru, dan penilaian.</p>
+        <span class="feat-tag">Akademik</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📱</div>
+        <h3>WhatsApp Auto Reminder</h3>
+        <p>Kirim reminder pembayaran SPP otomatis ke WhatsApp wali murid. Template pesan yang sopan dan profesional.</p>
+        <span class="feat-tag">Otomasi</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📈</div>
+        <h3>Grafik Keuangan</h3>
+        <p>Visualisasi pendapatan bulanan, tren pembayaran, dan perbandingan target vs realisasi dalam grafik interaktif.</p>
+        <span class="feat-tag">Analitik</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📄</div>
+        <h3>Export PDF & Sheets</h3>
+        <p>Unduh laporan keuangan, daftar siswa, dan rekap SPP dalam format PDF siap print atau Google Sheets.</p>
+        <span class="feat-tag">Export</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📱</div>
+        <h3>Responsive Mobile</h3>
+        <p>Akses penuh dari HP, tablet, maupun laptop. Tampilan menyesuaikan layar otomatis tanpa fitur berkurang.</p>
+        <span class="feat-tag">Mobile-First</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARA KERJA -->
+<section id="cara-kerja">
+  <div class="container">
+    <div class="section-label">Cara Kerja</div>
+    <h2 class="section-title">Setup Mudah,<br>Langsung Jalan</h2>
+    <p class="section-sub">Cukup siapkan Google Sheets kamu, dan sistem langsung bisa digunakan tanpa coding sama sekali.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Salin Template Sheets</h3>
+        <p>Duplikasi template Google Sheets Doremi yang sudah disiapkan ke Google Drive kamu.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Pasang Script API</h3>
+        <p>Tambahkan Google Apps Script yang sudah jadi — copy paste, deploy, salin URL-nya.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Isi Config Dashboard</h3>
+        <p>Tempel URL API ke file config dashboard. Simpan, dan sistem sudah terhubung!</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Kelola Sekolahmu</h3>
+        <p>Login, tambah data siswa, catat SPP, kirim reminder, dan unduh laporan kapan saja.</p>
+      </div>
+    </div>
+
+    <div class="sheets-box">
+      <div class="sheets-visual">
+        <div class="sheets-header"><span>📊</span> Doremi_Database.xlsx — Google Sheets</div>
+        <div class="sheets-row head">
+          <div class="sheets-cell">#</div>
+          <div class="sheets-cell">Nama</div>
+          <div class="sheets-cell">Instrumen</div>
+          <div class="sheets-cell">Mei 2025</div>
+        </div>
+        <div class="sheets-row">
+          <div class="sheets-cell">1</div>
+          <div class="sheets-cell">Rina Dewi</div>
+          <div class="sheets-cell">Piano</div>
+          <div class="sheets-cell badge-lunas">✓ Lunas</div>
+        </div>
+        <div class="sheets-row">
+          <div class="sheets-cell">2</div>
+          <div class="sheets-cell">Budi Santoso</div>
+          <div class="sheets-cell">Gitar</div>
+          <div class="sheets-cell badge-pending">⏳ Belum</div>
+        </div>
+        <div class="sheets-row">
+          <div class="sheets-cell">3</div>
+          <div class="sheets-cell">Anisa Putri</div>
+          <div class="sheets-cell">Vokal</div>
+          <div class="sheets-cell badge-lunas">✓ Lunas</div>
+        </div>
+        <div class="sheets-row">
+          <div class="sheets-cell">4</div>
+          <div class="sheets-cell">Farhan Rizki</div>
+          <div class="sheets-cell">Drum</div>
+          <div class="sheets-cell badge-lunas">✓ Lunas</div>
+        </div>
+        <div class="sheets-row">
+          <div class="sheets-cell">5</div>
+          <div class="sheets-cell">Siti Rahayu</div>
+          <div class="sheets-cell">Biola</div>
+          <div class="sheets-cell badge-pending">⏳ Belum</div>
+        </div>
+      </div>
+      <div class="sheets-text">
+        <h3>Data Real-Time di Google Sheets Kamu</h3>
+        <p>Semua data tersimpan langsung di Google Sheets yang kamu miliki. Tidak ada server yang harus dikelola, tidak ada biaya hosting tambahan.</p>
+        <ul>
+          <li>Buka Sheets kapan saja untuk cek atau edit manual</li>
+          <li>Data otomatis sinkron dengan dashboard</li>
+          <li>Backup otomatis oleh Google Drive</li>
+          <li>Bagikan akses ke guru atau staf lain</li>
+          <li>Gratis selamanya selama punya akun Google</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARGA SPP -->
+<section id="harga">
+  <div class="container">
+    <div class="section-label">Pilihan Program</div>
+    <h2 class="section-title">Tipe Pembayaran SPP</h2>
+    <p class="section-sub">Sistem mendukung dua model pembayaran yang bisa disesuaikan per siswa.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-type">Bulanan</div>
+        <div class="price-amt">Rp 350K<small>/bln</small></div>
+        <div class="price-period">Dibayar setiap tanggal 1–10</div>
+        <ul class="price-features">
+          <li>4–5 pertemuan per bulan</li>
+          <li>Progress report mingguan</li>
+          <li>WhatsApp reminder H-3</li>
+          <li>Sertifikat akhir semester</li>
+        </ul>
+        <button class="btn-price">Pilih Bulanan</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">HEMAT 15%</div>
+        <div class="price-type">Triwulan</div>
+        <div class="price-amt">Rp 900K<small>/3bln</small></div>
+        <div class="price-period">Bayar sekali untuk 3 bulan</div>
+        <ul class="price-features">
+          <li>12–15 pertemuan per kuartal</li>
+          <li>Progress report mingguan</li>
+          <li>Hemat Rp 150.000 vs bulanan</li>
+          <li>Evaluasi khusus akhir kuartal</li>
+          <li>Prioritas jadwal pilihan</li>
+        </ul>
+        <button class="btn-price">Pilih Triwulan</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="container">
+    <div class="section-label">Kata Mereka</div>
+    <h2 class="section-title">Dipercaya Oleh<br>Sekolah Musik</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Sebelumnya tagih SPP lewat grup WhatsApp, sekarang tinggal klik tombol reminder. Hemat waktu banget!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SW</div>
+          <div><strong>Sinta Wulandari</strong><span>Owner – Harmonia Music, Surabaya</span></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Data siswa 80 orang sekarang rapih banget di Sheets. Bisa akses dari HP kapanpun, laporan PDF juga mudah."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">BR</div>
+          <div><strong>Bagus Riyanto</strong><span>Admin – Melodia School, Malang</span></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Grafik keuangannya membantu banget buat laporan ke orang tua siswa. Sistem ini udah kayak sekretaris digital!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar">DP</div>
+          <div><strong>Dewi Pramesti</strong><span>Direktur – Nada Indah, Yogyakarta</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="kontak" class="cta-section">
+  <div class="section-label">Mulai Sekarang</div>
+  <h2>Siap Kelola Sekolah Musik<br>Lebih <em style="color:var(--gold);font-family:'Playfair Display',serif">Rapi & Efisien?</em></h2>
+  <p>Hubungi kami via WhatsApp untuk setup bantuan gratis dan template Google Sheets Doremi.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative">
+    <a href="https://wa.me/6285600000000?text=Halo%20Doremi%20Music%20School%2C%20saya%20tertarik%20dengan%20sistem%20manajemen%20sekolah%20musik" class="wa-btn">
+      <span class="wa-icon">💬</span> Chat WhatsApp Sekarang
+    </a>
+    <a href="doremi-dashboard.html" class="btn-outline" style="position:relative;padding:1rem 2rem">
+      Coba Demo Dashboard
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">
+    <div class="logo-icon">♪</div>
+    <div class="logo-text">
+      <strong>Doremi Music School</strong>
+      <span>Sistem Manajemen Modern</span>
+    </div>
+  </div>
+  <p style="margin-top:1rem">© 2025 Doremi Music School. Dibuat dengan ♥ untuk kemudahan pengelolaan sekolah musik.</p>
+  <p style="margin-top:0.5rem"><a href="doremi-dashboard.html">Login Dashboard Admin</a></p>
+</footer>
+
+</body>
+</html>
